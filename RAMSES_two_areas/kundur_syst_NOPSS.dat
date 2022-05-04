@@ -1,0 +1,99 @@
+$TOLAC   0.001 ;
+$TOLREAC 0.001 ;
+$NBITMA   20 ;
+$MISBLOC  0 ;
+$MISADJ   1 ;
+$PLIM 1 ;
+$DIVDET 0 ;
+
+BUS UNO 20. 0.0000 0.00000 0. 0. ;
+BUS DOS 20. 0.0000 0.00000 0. 0. ;
+BUS TRES 20. 0.0000 0.00000 0. 0. ;
+BUS CUATRO 20. 0.0000 0.00000 0. 0. ;
+BUS CINCO 230. 0.0000 0.00000 0. 0. ;
+BUS SEIS 230. 0.0000 0.00000 0. 0. ;
+BUS SIETE 230. 967. 100. 200. 0.0 ;
+BUS OCHO 230. 0.0000 0.00000 0. 0. ;
+BUS NUEVE 230. 1767. 100. 350. 0. ;
+BUS DIEZ 230. 0.0000 0.00000 0. 0. ;
+BUS ONCE 230. 0.0000 0.00000 0. 0. ;
+
+LINE CINCO-SEIS CINCO SEIS 1.3225 13.225 41.35163 9999. 1 ;
+LINE ONCE-DIEZ ONCE DIEZ 1.3225 13.225 41.35163 9999. 1 ;
+LINE SEIS-SIETE SEIS SIETE 0.529 5.29 16.54065 9999. 1 ;
+LINE DIEZ-NUEVE DIEZ NUEVE 0.529 5.29 16.54065 9999. 1 ;
+LINE SIETE-OCHO-1 SIETE OCHO 5.819 58.19 181.94715 9999. 1 ;
+LINE SIETE-OCHO-2 SIETE OCHO 5.819 58.19 181.94715 9999. 1 ;
+LINE NUEVE-OCHO-1 NUEVE OCHO 5.819 58.19 181.94715 9999. 1 ;
+LINE NUEVE-OCHO-2 NUEVE OCHO 5.819 58.19 181.94715 9999. 1 ;
+
+TRANSFO ELEV_UNO UNO CINCO 0. 15. 0. 0. 100 0. 900. 1 ;
+TRANSFO ELEV_DOS DOS SEIS 0. 15. 0. 0. 100 0. 900. 1 ;
+TRANSFO ELEV_TRES TRES ONCE 0. 15. 0. 0. 100 0. 900. 1 ;
+TRANSFO ELEV_CUATRO CUATRO DIEZ 0. 15. 0. 0. 100 0. 900. 1 ;
+
+GENER G1 UNO UNO 700.0 185.0 1.03 900. -9999. 9999. 1 ;
+GENER G2 DOS DOS 700.0 235.0 1.01 900. -9999. 9999. 1 ;
+GENER G3 TRES TRES 719.0 176.0 1.03 900. -9999. 9999. 1 ;
+GENER G4 CUATRO CUATRO 700.0 202.0 1.01 900. -9999. 9999. 1 ;
+SLACK UNO ;
+
+FNOM 60. ;
+
+
+
+# Synchronous machines
+# SYNC_MACH name bus_name FP FQ P Q SNOM Pnom H D IBRATIO
+SYNC_MACH G1 UNO 1. 1. 0. 0. 900 810 6.5 0. 1.6
+#     XT/RL Xl  Xd  X'd  X''d  Xq  X'q  X''q  B  A  Ra  T'do  T''do  T'qo  T''qo
+            XT  0.2 1.8 0.3 0.25 1.7 0.55 0.25 0. 1. 0.0025 8.0 0.03 0.4 0.05
+                       # IFLIM   d   f  S   K1    K2  L1  L2   G    TA TB  TE    L3   L4
+			EXC GENERIC1 2.750 -0.1  0. 1. 100.  -1. -20. 0.1 200.   1. 1. 0.01 -100. 100.
+                       # SPEEDIN KPSS Tw  T1   T2   T3  T4   DVMIN DVMAX
+                           1.      0.   1.  1.   1.   1.   1. -0.5   0.5
+                              # SIGMA TP  Qv KP   KI   TSM LIMZDOT TW
+            TOR HYDRO_GENERIC1  0.04  2.0 0. 2.00 0.40 0.2 0.1     1.0 ;
+
+# SYNC_MACH name bus_name FP FQ P Q SNOM Pnom H D IBRATIO
+SYNC_MACH G2 DOS  1. 1.  0.  0.  900 810 6.5 0. 1.6
+#     XT/RL Xl  Xd  X'd  X''d  Xq  X'q  X''q  B  A  Ra  T'do  T''do  T'qo  T''qo
+             XT  0.2   1.8   0.3  0.25   1.7  0.55 0.25  0.  1. 0.0025  8.0 0.03 0.4 0.05
+                       # IFLIM  d   f  S  K1    K2  L1  L2  G    TA TB TE    L3   L4
+            EXC GENERIC1 2.750 -0.1 0. 1. 100. -1. -20. 0.1 200. 1. 1. 0.01 -100. 100.
+                       # SPEEDIN KPSS   Tw  T1   T2   T3  T4   DVMIN DVMAX
+                          1.      0.   1.  1.   1.   1.   1. -0.5   0.5
+                              # SIGMA TP  Qv KP   KI   TSM LIMZDOT TW
+            TOR HYDRO_GENERIC1  0.04  2.0 0. 2.00 0.40 0.2 0.1     1.0 ;
+
+
+# SYNC_MACH name bus_name FP FQ P Q SNOM Pnom H D IBRATIO
+SYNC_MACH G3  TRES  1. 1.  0.  0.  900 810 6.175 0. 1.6
+#     XT/RL Xl  Xd  X'd  X''d  Xq  X'q  X''q  B  A  Ra  T'do  T''do  T'qo  T''qo
+              XT  0.2   1.8   0.3  0.25   1.7  0.55 0.25  0.  1. 0.0025  8.0 0.03 0.4 0.05
+                       # IFLIM  d   f  S  K1    K2  L1  L2  G    TA TB TE    L3   L4
+            EXC GENERIC1 2.750 -0.1 0. 1. 100. -1. -20. 0.1 200. 1. 1. 0.01 -100. 100.
+                       # SPEEDIN KPSS Tw  T1   T2   T3  T4   DVMIN DVMAX
+                         1.      0.   1.  1.   1.   1.   1. -0.5   0.5
+                              # SIGMA TP  Qv KP   KI   TSM LIMZDOT TW
+            TOR HYDRO_GENERIC1  0.04  2.0 0. 2.00 0.40 0.2 0.1     1.0 ;
+
+# SYNC_MACH name bus_name FP FQ P Q SNOM Pnom H D IBRATIO
+SYNC_MACH G4  CUATRO  1. 1.  0.  0.  900 810 6.175 0. 1.6
+#     XT/RL Xl  Xd  X'd  X''d  Xq  X'q  X''q  B  A  Ra  T'do  T''do  T'qo  T''qo
+              XT  0.2   1.8   0.3  0.25   1.7  0.55 0.25  0.  1. 0.0025  8.0 0.03 0.4 0.05
+                       # IFLIM  d   f  S  K1    K2  L1  L2  G    TA TB TE    L3   L4
+            EXC GENERIC1 2.750 -0.1 0. 1. 100. -1. -20. 0.1 200. 1. 1. 0.01 -100. 100.
+                       # SPEEDIN KPSS Tw  T1   T2   T3  T4   DVMIN DVMAX
+                         1.      0.   1.  1.   1.   1.   1. -0.5   0.5
+                              # SIGMA TP  Qv KP   KI   TSM LIMZDOT TW
+            TOR HYDRO_GENERIC1  0.04  2.0 0. 2.00 0.40 0.2 0.1     1.0 ;
+
+# LOAD inj_name bus_name FP FQ P Q  DP A1 alpha1 A2 alpha2 alpha3 DQ B1 beta1 B2 beta2 beta3 ;
+
+LOAD  L7  SIETE 0. 0. -967.  -100. 0. 1. 1.0 0. 0. 0. 0. 1. 2.0 0. 0. 0. ;
+LOAD  L9  NUEVE 0. 0. -1767. -100. 0. 1. 1.0 0. 0. 0. 0. 1. 2.0 0. 0. 0. ;
+
+# SHUNT shunt_name bus_name Q br ;
+
+SHUNT C7 SIETE 200 1 ;
+SHUNT C9 NUEVE 350 1 ;
